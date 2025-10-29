@@ -1,0 +1,26 @@
+.admin-controls {
+    margin-top: 50px;
+}
+
+.selected-container {
+    margin: 5% auto;
+    align-items: center;
+    width: 80%;
+}
+
+.return-input {
+    color: black;
+    background-color: transparent;
+    border: none;
+}
+
+.available-input {
+    width: 50px;
+    text-align: center;
+    padding: 1%;
+    color: black;
+    border: none;
+    background-color: transparent;
+    border-radius: 4px;
+    height: 100%;
+}

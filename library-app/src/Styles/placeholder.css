@@ -1,0 +1,95 @@
+/* Catalog Placeholder Styles - Add to your existing catalog.css */
+
+.catalog-placeholder {
+    margin: 4rem 5% 3rem 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.placeholder-content {
+    width: 100%;
+    text-align: center;
+}
+
+.placeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.placeholder-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
+    backdrop-filter: blur(10px);
+}
+
+/*
+.placeholder-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+    */
+
+.card-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 64px;
+    height: 64px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    margin: 0 auto 1.5rem auto;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.placeholder-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.95);
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.placeholder-card p {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.6;
+    font-weight: 300;
+    margin: 0;
+}
+
+.placeholder-footer {
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.placeholder-footer p {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 300;
+    margin: 0;
+    letter-spacing: -0.01em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .placeholder-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .placeholder-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .catalog-placeholder {
+        margin: 3rem 5% 2rem 5%;
+        min-height: 300px;
+    }
+}
