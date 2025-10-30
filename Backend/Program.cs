@@ -1,4 +1,6 @@
 using Backend.data;
+using Backend.services.interfaces;
+using Backend.services.implementations;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +14,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<LibraryAppContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
+
+builder.Services.AddScoped<ICatalogService, CatalogService>();
 
 var app = builder.Build();
 
