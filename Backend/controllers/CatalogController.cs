@@ -26,7 +26,31 @@ public class CatalogController : ControllerBase
         return  Ok(books);
     }
 
-    [HttpDelete("books/{id}")]
+    [HttpPost("books")]
+    public async Task<ActionResult<Book>> AddBook([FromBody] CreateBookDto bookDto)
+    {
+        try
+        {
+            var book = await _catalogService.CreateBook(bookDto);
+
+            return CreatedAtAction(nameof(GetBookById), new { id = book.Id }, book);
+        }
+        catch (InvalidOperationException e)
+        {
+            return Conflict(new { message = e.Message });
+        }
+    }
+
+    [HttpGet("books/{id:long}")]
+    public async Task<ActionResult<Book>> GetBookById(long id)
+    {
+        var book = await _catalogService.GetBookByIdAsync(id);
+        if (book == null) return NotFound();
+        
+        return Ok(book);
+    }
+
+    [HttpDelete("books/{id:long}")]
     public async Task<IActionResult> DeleteBookById(int id)
     {
         var deleted = await _catalogService.DeleteBookById(id);

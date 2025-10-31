@@ -51,6 +51,14 @@ public class CatalogService : ICatalogService
 
     public async Task<Book> CreateBook(CreateBookDto bookDto)
     {
+        var existingBook = _context.Books
+            .FirstOrDefault(b => b.Title == bookDto.Title && b.Author.Name == bookDto.Author);
+
+        if (existingBook != null)
+        {
+            throw new InvalidOperationException("Book already exists");
+        }
+        
         var authorId = await  FindOrCreateAuthor(bookDto.Author);
         var genreId = await   FindOrCreateGenre(bookDto.Genre);
 
@@ -98,7 +106,7 @@ public class CatalogService : ICatalogService
         return newGenre.Id;
     }
 
-    public async Task<bool> DeleteBookById(int id)
+    public async Task<bool> DeleteBookById(long id)
     {
         var book = await _context.Books.FindAsync(id);
         if (book == null)
@@ -110,5 +118,14 @@ public class CatalogService : ICatalogService
         await _context.SaveChangesAsync();
         return true;
     }
-    
+
+    public async Task<Book?> GetBookByIdAsync(long id)
+    {
+        var book = await _context.Books
+            .Include(b => b.Author)
+            .Include(b => b.Genre)
+            .FirstOrDefaultAsync(b => b.Id == id);
+
+        return book;
+    }
 }
