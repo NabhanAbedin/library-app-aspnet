@@ -7,6 +7,8 @@ public interface ICatalogService
     Task<IEnumerable<Book>> GetBooks(BookQueryParameters query);
     Task<Book> CreateBook(CreateBookDto bookDto);
     Task<bool> DeleteBookById(long id);
-    Task<long> FindOrCreateAuthor(string authorname);
     Task<Book?> GetBookByIdAsync(long id);
+    
+    Task<IEnumerable<Author>> GetAuthors(AuthorQueryParemeters query);
+    Task<IEnumerable<Genre>> GetGenres(GenreQueryParameters query);
 }

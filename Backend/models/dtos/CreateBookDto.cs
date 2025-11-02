@@ -4,7 +4,6 @@ namespace Backend.models.dtos;
 
 public class CreateBookDto
 {
-    
     [Required]
     public string Title { get; set; }
     

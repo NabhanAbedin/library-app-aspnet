@@ -61,5 +61,19 @@ public class CatalogController : ControllerBase
         }
         return NoContent();
     }
+
+    [HttpGet("authors")]
+    public async Task<ActionResult<IEnumerable<Author>>> GetAuthors([FromQuery] AuthorQueryParemeters query)
+    {
+        var authors = await _catalogService.GetAuthors(query);
+        return Ok(authors);
+    }
+
+    [HttpGet("genres")]
+    public async Task<ActionResult<IEnumerable<Genre>>> GetGenres([FromQuery] GenreQueryParameters query)
+    {
+        var genres = await _catalogService.GetGenres(query);
+        return Ok(genres);
+    }
     
 }

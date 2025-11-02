@@ -2,6 +2,7 @@ using Backend.data;
 using Backend.models.Entities;
 using Backend.services.interfaces;
 using Backend.models.dtos;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.services.implementations;
@@ -17,7 +18,7 @@ public class CatalogService : ICatalogService
 
     public async Task<IEnumerable<Book>> GetBooks(BookQueryParameters query)
     {
-       var booksQuery = _context.Books
+       var booksQuery =  _context.Books
            .Include(b => b.Author)
            .Include(b => b.Genre)
            .AsQueryable();
@@ -77,7 +78,7 @@ public class CatalogService : ICatalogService
         return book;
     }
 
-    public async Task<long> FindOrCreateAuthor(string authorName)
+    private async Task<long> FindOrCreateAuthor(string authorName)
     {
         var author = await _context.Authors.FirstOrDefaultAsync(a => a.Name  == authorName);
 
@@ -92,7 +93,7 @@ public class CatalogService : ICatalogService
         return newAuthor.Id;
     }
 
-    public async Task<long> FindOrCreateGenre(string genreType)
+    private async Task<long> FindOrCreateGenre(string genreType)
     {
         var genre = await _context.Genres.FirstOrDefaultAsync(g => g.Type == genreType);
 
@@ -127,5 +128,59 @@ public class CatalogService : ICatalogService
             .FirstOrDefaultAsync(b => b.Id == id);
 
         return book;
+    }
+
+    public async Task<IEnumerable<Author>> GetAuthors(AuthorQueryParemeters query)
+    {
+        var authorQuery = _context.Authors.AsQueryable();
+
+        if (!string.IsNullOrEmpty(query.Search))
+        {
+            authorQuery = authorQuery.Where(a => a.Name.Contains(query.Search));
+        }
+
+        if (!string.IsNullOrEmpty(query.From))
+        {
+            authorQuery = authorQuery.Where(a => a.Name.CompareTo(query.From) >= 0);
+        }
+
+        if (!string.IsNullOrEmpty(query.To))
+        {
+            authorQuery = authorQuery.Where(a => a.Name.CompareTo(query.To) <= 0);
+        }
+
+        if (!string.IsNullOrEmpty(query.OrderBy) && query.OrderBy?.ToLower() == "desc")
+        {
+            authorQuery = authorQuery.OrderByDescending(a => a.Name);
+        }
+        else
+        {
+            authorQuery = authorQuery.OrderBy(b => b.Name);
+
+        }
+
+        return await authorQuery.ToListAsync();
+    }
+
+    public async Task<IEnumerable<Genre>> GetGenres(GenreQueryParameters query)
+    {
+        var genreQuery = _context.Genres.AsQueryable();
+
+        if (!string.IsNullOrEmpty(query.Search))
+        {
+            genreQuery = genreQuery.Where(g => g.Type.Contains(query.Search));
+            
+        }
+
+        if (!string.IsNullOrEmpty(query.Search) && query.OrderBy?.ToLower() == "desc")
+        {
+            genreQuery = genreQuery.OrderByDescending(g => g.Type);
+        }
+        else
+        {
+            genreQuery = genreQuery.OrderBy(g => g.Type);
+        }
+        
+        return await genreQuery.ToListAsync();
     }
 }
