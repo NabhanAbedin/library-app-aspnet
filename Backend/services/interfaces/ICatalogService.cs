@@ -11,4 +11,6 @@ public interface ICatalogService
     
     Task<IEnumerable<Author>> GetAuthors(AuthorQueryParemeters query);
     Task<IEnumerable<Genre>> GetGenres(GenreQueryParameters query);
+    
+    
 }

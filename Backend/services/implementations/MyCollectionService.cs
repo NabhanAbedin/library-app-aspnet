@@ -22,8 +22,6 @@ public class MyCollectionService : IMyCollectionService
             .Include(c => c.User)
             .Include(c => c.Book)
                 .ThenInclude(b => b.Author)
-            .Include(c => c.Book)
-                .ThenInclude(b => b.Author)
             .Select(c => new CartItemDto
             {
                 Id = c.Id,
@@ -39,18 +37,60 @@ public class MyCollectionService : IMyCollectionService
             
     }
 
-    public Task<bool> AddMyCollection(long id)
+    public async Task<Cart> AddMyCollection(long userId, long  bookId )
     {
-        throw new NotImplementedException();
+        var cart = new Cart
+        {
+            UserId = userId,
+            BookId = bookId,
+        };
+        _context.Carts.Add(cart);
+       await _context.SaveChangesAsync();
+
+        return cart;
     }
 
-    public Task<bool> RemoveMyCollection(long id)
+    public async Task<bool> RemoveMyCollection(long id, long  userId)
     {
-        throw new NotImplementedException();
+        var cartItem =  await _context.Carts.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
+        if (cartItem == null)
+        {
+            return false;
+        }
+        _context.Carts.Remove(cartItem);
+        await _context.SaveChangesAsync();
+        return true;
     }
 
     public Task<IEnumerable<CheckedOut>> GetCheckedOutCollection()
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<CartItemDto?> GetItemById(long cartItemId, long userId)
+    {
+        var cartItem = await _context.Carts
+            .Where(c => c.Id == cartItemId && c.UserId == userId)
+            .Include(c => c.User)
+            .Include(c => c.Book)
+            .ThenInclude(b => b.Author)
+            .Select(c => new CartItemDto
+            {
+                Id = c.Id,
+                BookId = c.BookId,
+                Username = c.User.Username,
+                BookTitle = c.Book.Title,
+                AuthorName = c.Book.Author.Name,
+                GenreType = c.Book.Genre.Type
+            })
+            .FirstOrDefaultAsync();
+
+        if (cartItem == null)
+        {
+            return null;
+        }
+
+        return cartItem;
+
     }
 }
