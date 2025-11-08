@@ -38,7 +38,7 @@ public class CatalogService : ICatalogService
            booksQuery = booksQuery.Where(b => b.Release <= query.To.Value);
        }
 
-       if (!string.IsNullOrEmpty(query.SortBy) && query.OrderBy?.ToLower() == "desc")
+       if (!string.IsNullOrEmpty(query.OrderBy) && query.OrderBy?.ToLower() == "desc")
        {
            booksQuery = booksQuery.OrderByDescending(b => b.Title);
        }
