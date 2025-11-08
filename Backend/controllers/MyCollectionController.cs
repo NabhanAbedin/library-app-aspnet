@@ -1,13 +1,16 @@
+using System.Security.Claims;
 using Backend.models.dtos;
 using Backend.services.interfaces;
 using Backend.models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.controllers;
 
-[Route("api[controller]")]
+[Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class MyCollectionController : ControllerBase
 {
     private readonly IMyCollectionService _myCollectionService;
@@ -17,14 +20,27 @@ public class MyCollectionController : ControllerBase
         _myCollectionService = myCollectionService;
     }
 
+    private long GetUserIdFromToken()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                          ?? User.FindFirst("userId")?.Value
+                          ?? User.FindFirst("sub")?.Value;
+
+        if (string.IsNullOrEmpty(userIdClaim) || !long.TryParse(userIdClaim, out var userId))
+        {
+            throw new UnauthorizedAccessException("Invalid token");
+        }
+        
+        return userId;
+
+    }
+
     [HttpGet("cart")]
     public async Task<ActionResult<IEnumerable<CartItemDto>>> GetCollection()
     {
-        //will grab userId from jwt through middleware
-        var userId = 0;
-        //will try and parse userId if it doesn't exist return with unauthorized or bad request
         try
         {
+            var userId = GetUserIdFromToken();
             var cart = await _myCollectionService.GetMyCollection(userId);
             return Ok(cart);
         }
@@ -37,11 +53,10 @@ public class MyCollectionController : ControllerBase
     [HttpPost("cart/{bookId:long}")]
     public async Task<IActionResult> AddCollection(long bookId)
     {
-        //grab userId from middleware
-        var userId = 0; // this is temperory 
-
+        
         try
         {
+            var  userId = GetUserIdFromToken();
             var cartItem = await _myCollectionService.AddMyCollection(userId, bookId);
             return CreatedAtAction(nameof(GetCartItemById), new { id = cartItem.Id }, cartItem);
         }
@@ -58,9 +73,9 @@ public class MyCollectionController : ControllerBase
     [HttpGet("cart/{cartItemId:long}")]
     public async Task<ActionResult<CartItemDto>> GetCartItemById(long cartItemId)
     {
-        var userId = 0;
         try
         {
+            var userId = GetUserIdFromToken();
             var cartItem = await _myCollectionService.GetItemById(cartItemId, userId);
             return Ok(cartItem);
         }
@@ -73,9 +88,10 @@ public class MyCollectionController : ControllerBase
     [HttpDelete("cart/{cartItemId:long}")]
     public async Task<IActionResult> RemoveMyCollection(long id)
     {
-        var userId = 0;
+       
         try
         {   
+            var userId = GetUserIdFromToken();
             var deletedItem =  await _myCollectionService.RemoveMyCollection(id, userId);
 
             if (!deletedItem)

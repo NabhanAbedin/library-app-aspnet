@@ -128,3 +128,12 @@
 /Users/nabhanabedin/library-app-aspnet/Backend/obj/Debug/net9.0/Backend.pdb
 /Users/nabhanabedin/library-app-aspnet/Backend/obj/Debug/net9.0/Backend.genruntimeconfig.cache
 /Users/nabhanabedin/library-app-aspnet/Backend/obj/Debug/net9.0/ref/Backend.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/BCrypt.Net-Next.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/Microsoft.IdentityModel.Logging.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
+/Users/nabhanabedin/library-app-aspnet/Backend/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll

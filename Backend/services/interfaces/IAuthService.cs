@@ -4,7 +4,7 @@ using Backend.models.Entities;
 
 public interface IAuthService
 {
-    Task<User> RegisterAsync(RegisterDto dto);
+    Task<LoginResultDto> RegisterAsync(RegisterDto dto);
     Task<LoginResultDto> LoginAsync(LoginDto dto);
     
 }
