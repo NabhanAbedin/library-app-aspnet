@@ -112,6 +112,15 @@ namespace Backend.Migrations
                     b.Property<long>("BookId")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("CheckedOutTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("ReturnedTime")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
 

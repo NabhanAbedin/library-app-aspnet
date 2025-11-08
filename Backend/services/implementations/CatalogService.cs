@@ -162,6 +162,52 @@ public class CatalogService : ICatalogService
         return await authorQuery.ToListAsync();
     }
 
+    public async Task<Author> CreateAuthor(Author authorInfo)
+    {
+        var author =  await _context.Authors.FirstOrDefaultAsync(a => a.Name == authorInfo.Name);
+        if (author != null) 
+        {
+            throw new InvalidOperationException("Author already exists");
+        }
+        
+        var newAuthor = new Author
+        {
+            Name = authorInfo.Name,
+            Bio = authorInfo.Bio ?? null,
+            Age =  authorInfo.Age,
+            
+        };
+        
+        _context.Authors.Add(newAuthor);
+        await _context.SaveChangesAsync();
+        
+        return newAuthor;
+    }
+    
+    public async Task<Author?> GetAuthorByIdAsync(long id)
+    {
+        var author = await _context.Authors.FirstOrDefaultAsync(a => a.Id == id);
+
+        if (author == null)
+        {
+            throw new InvalidOperationException("Author not found");
+        }
+        
+        return author;
+    }
+
+    public async Task<bool> DeleteAuthorById(long id)
+    {
+        var author = await _context.Authors.FindAsync(id);
+        if (author == null)
+        {
+            return false;
+        }
+        _context.Authors.Remove(author);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
     public async Task<IEnumerable<Genre>> GetGenres(GenreQueryParameters query)
     {
         var genreQuery = _context.Genres.AsQueryable();
@@ -182,5 +228,47 @@ public class CatalogService : ICatalogService
         }
         
         return await genreQuery.ToListAsync();
+    }
+
+    public async Task<Genre> CreateGenre(Genre genreInfo)
+    {
+        var genre = await _context.Genres.FirstOrDefaultAsync(g => g.Type == genreInfo.Type);
+        if (genre != null)
+        {
+            throw new InvalidOperationException("Genre exists");
+        }
+
+        var newGenre = new Genre
+        {
+            Type = genreInfo.Type,
+        };
+        
+        _context.Genres.Add(newGenre);
+        await _context.SaveChangesAsync();
+        return newGenre;
+        
+    }
+
+    public async Task<Genre?> GetGenreByIdAsync(long id)
+    {
+        var genre = await _context.Genres.FirstOrDefaultAsync(g => g.Id == id);
+        if (genre == null)
+        {
+            throw new InvalidOperationException("Genre not found");
+        }
+        return genre;
+    }
+
+    public async Task<bool> DeleteGenreById(long id)
+    {
+        var genre = await _context.Genres.FindAsync(id);
+        if (genre == null)
+        {
+            return false;
+        }
+
+        _context.Genres.Remove(genre);
+        await _context.SaveChangesAsync();
+        return true;
     }
 }

@@ -44,6 +44,10 @@ public class MyCollectionController : ControllerBase
             var cart = await _myCollectionService.GetMyCollection(userId);
             return Ok(cart);
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { error = ex.Message });
+        }
         catch (Exception ex)
         {
             return StatusCode(500, new {message = ex.Message});
@@ -64,6 +68,10 @@ public class MyCollectionController : ControllerBase
         {
             return StatusCode(500, new { message = e.Message});
         }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { error = ex.Message });
+        }
         catch (Exception e)
         {
             return  StatusCode(500, new {message = e.Message});
@@ -78,6 +86,10 @@ public class MyCollectionController : ControllerBase
             var userId = GetUserIdFromToken();
             var cartItem = await _myCollectionService.GetItemById(cartItemId, userId);
             return Ok(cartItem);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { error = ex.Message });
         }
         catch (Exception e)
         {
@@ -99,6 +111,48 @@ public class MyCollectionController : ControllerBase
                 return NotFound();
             }
             return NoContent();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { error = ex.Message });
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, new { message = e.Message});
+        }
+    }
+
+    [HttpGet("checkedout")]
+    public async Task<ActionResult<IEnumerable<CheckedOutDto>>> GetCheckedOutCollection()
+    {
+        try
+        {
+            var userId = GetUserIdFromToken();
+            var cart = await _myCollectionService.GetCheckedOutCollection(userId);
+            return Ok(cart);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { error = ex.Message });
+        }
+        catch (Exception e)
+        {
+            return  StatusCode(500, new { message = e.Message});
+        }
+    }
+
+    [HttpPost("checkedout")]
+    public async Task<IActionResult> AddCheckedOutCollection([FromBody] CheckoutBooksDto dto)
+    {
+        try
+        {
+            var userId = GetUserIdFromToken();
+            await _myCollectionService.AddCheckedOutCollection(userId, dto.bookIds);
+            return Ok();
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            return Unauthorized(new { error = ex.Message });
         }
         catch (Exception e)
         {

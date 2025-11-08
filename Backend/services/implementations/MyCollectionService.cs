@@ -16,7 +16,7 @@ public class MyCollectionService : IMyCollectionService
     }
     public async Task<IEnumerable<CartItemDto>> GetMyCollection(long userId)
     {
-        //will grab user Id from request
+        
         var cart = await _context.Carts
             .Where(c => c.UserId == userId)
             .Include(c => c.User)
@@ -62,9 +62,73 @@ public class MyCollectionService : IMyCollectionService
         return true;
     }
 
-    public Task<IEnumerable<CheckedOut>> GetCheckedOutCollection()
+    public async Task<IEnumerable<CheckedOutDto>> GetCheckedOutCollection(long userId)
     {
-        throw new NotImplementedException();
+        var checkedOutBooks = await _context.CheckedOuts
+            .Where(c => c.UserId ==  userId && c.ReturnedTime == null)
+            .Include(c => c.Book)
+                .ThenInclude(b => b.Author)
+            .Select(c => new CheckedOutDto
+            {
+                Id = c.Id,
+                BookId = c.BookId,
+                BookTitle = c.Book.Title,
+                AuthorName = c.Book.Author.Name,
+                CheckedOutTime = c.CheckedOutTime,
+                DueDate = c.DueDate,
+            })
+            .ToListAsync();
+
+        return checkedOutBooks;
+    }
+
+    public async Task AddCheckedOutCollection(long userId, List<long> bookIds)
+    {
+        using var transaction = await _context.Database.BeginTransactionAsync();
+    
+        try
+        {
+            var currentCheckoutCount = await _context.CheckedOuts
+                .CountAsync(c => c.UserId == userId && c.ReturnedTime == null);
+
+            if (currentCheckoutCount + bookIds.Count > 5)
+            {
+                throw new InvalidOperationException("You cannot add more than 5 books to your checked out");
+            }
+        
+            var dueDate = DateTime.UtcNow.AddDays(7);
+
+            var checkedOutItems = bookIds.Select(bookId => new CheckedOut
+            {
+                UserId = userId,
+                BookId = bookId,
+                CheckedOutTime = DateTime.UtcNow,
+                DueDate = dueDate,
+            }).ToList();
+        
+            _context.CheckedOuts.AddRange(checkedOutItems);
+
+            await _context.Books
+                .Where(b => bookIds.Contains(b.Id))
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(b => b.Available, b => b.Available - 1)
+                );
+        
+            var cartItems = await _context.Carts
+                .Where(c => c.UserId == userId && bookIds.Contains(c.BookId))
+                .ToListAsync();
+        
+            _context.Carts.RemoveRange(cartItems);
+        
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+            
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     public async Task<CartItemDto?> GetItemById(long cartItemId, long userId)
