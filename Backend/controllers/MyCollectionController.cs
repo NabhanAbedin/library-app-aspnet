@@ -122,7 +122,7 @@ public class MyCollectionController : ControllerBase
         }
     }
 
-    [HttpGet("checkedout")]
+    [HttpGet("checkout")]
     public async Task<ActionResult<IEnumerable<CheckedOutDto>>> GetCheckedOutCollection()
     {
         try
@@ -141,7 +141,7 @@ public class MyCollectionController : ControllerBase
         }
     }
 
-    [HttpPost("checkedout")]
+    [HttpPost("checkout")]
     public async Task<IActionResult> AddCheckedOutCollection([FromBody] CheckoutBooksDto dto)
     {
         try

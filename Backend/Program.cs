@@ -43,6 +43,7 @@ builder.Services.AddDbContext<LibraryAppContext>(options =>
 builder.Services.AddScoped<ICatalogService, CatalogService>();
 builder.Services.AddScoped<IMyCollectionService, MyCollectionService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAdminService, AdminService>();
 
 var app = builder.Build();
 
