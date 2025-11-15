@@ -285,7 +285,6 @@ export const removeFromRequests = async (cart) => {
         headers: {'Content-type': 'application/json'},
         credentials: 'include',
         body: JSON.stringify({cart})
-
     })
 
     return res;

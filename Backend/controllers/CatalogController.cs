@@ -89,6 +89,7 @@ public class CatalogController : ControllerBase
         
     }
 
+    [HttpGet("authors/{id:long}")]
     public async Task<ActionResult<Author?>> getAuthorById(long id)
     {
         try

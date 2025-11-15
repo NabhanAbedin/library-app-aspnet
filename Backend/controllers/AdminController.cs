@@ -46,8 +46,7 @@ public class AdminController : ControllerBase
       }
       catch (Exception e)
       {
-            Console.WriteLine(e);
-            throw;
+           return StatusCode(500,  new { message = e.Message });
       }
    }
    

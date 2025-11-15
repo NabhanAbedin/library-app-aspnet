@@ -14,7 +14,7 @@ public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
     
-    public  AuthController(IAuthService authService)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
     }
@@ -33,7 +33,14 @@ public class AuthController : ControllerBase
                 Secure = Request.IsHttps,
             });
 
-            return Ok(result);
+            var loginResult = new LoginClientResponseDto
+            {
+                UserId = result.UserId,
+                Username = result.Username,
+                Role = result.Role
+            };
+
+            return Ok(loginResult);
 
         }
         catch (InvalidOperationException e)
@@ -53,7 +60,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+    public async Task<ActionResult<LoginClientResponseDto>> Login([FromBody] LoginDto loginDto)
     {
         try
         {
@@ -67,7 +74,14 @@ public class AuthController : ControllerBase
                 Secure = Request.IsHttps,
             });
 
-            return Ok(result);
+            var loginResult = new LoginClientResponseDto
+            {
+                UserId = result.UserId,
+                Username = result.Username,
+                Role = result.Role
+            };
+
+            return Ok(loginResult);
         }
         catch (UnauthorizedAccessException e)
         {
