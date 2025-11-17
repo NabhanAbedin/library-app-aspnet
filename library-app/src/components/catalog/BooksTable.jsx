@@ -47,10 +47,10 @@ const BooksTable = ({books}) => {
                     style={cart.includes(book.id) ? { backgroundColor: '#f5f5f5' } : undefined}
                     onClick={() => handleSelect(book.id)}
                     >
-                        <td className="book-title-cell">{book.book_title}</td>
-                        <td className="book-author-cell">{book.author_name}</td>
+                        <td className="book-title-cell">{book.title}</td>
+                        <td className="book-author-cell">{book.author.name}</td>
                         <td className="book-genre-cell">
-                            <span className="book-genre-tag">{book.genre_type}</span>
+                            <span className="book-genre-tag">{book.genre.type}</span>
                         </td>
                         <td className="book-release-cell">{formatRelease(book.release)}</td>
                         <td className="book-genre-cell">

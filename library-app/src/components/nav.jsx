@@ -1,7 +1,7 @@
 import {Link, useNavigate} from 'react-router-dom';
 import '../styles/nav.css';
 import { useState, useEffect } from 'react';
-import { logOut } from '../api/apiFunctions';
+import { logout } from '../api/authApi';
 import { useAuth } from '../AuthContext';
 
 
@@ -15,7 +15,7 @@ const Nav = () => {
       return (
         <button className='nav-button' onClick={async () => {
           try { 
-            const res = await logOut();
+            const res = await logout();
             if (res.ok) {
               logOutClient();
               navigate('/');

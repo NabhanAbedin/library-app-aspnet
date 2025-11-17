@@ -25,6 +25,8 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
+
+        
     });
 
 builder.Services.AddAuthorization();
@@ -33,7 +35,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:3000") 
+        policy.WithOrigins("http://localhost:5173") 
             .AllowCredentials()                   
             .AllowAnyMethod()                      
             .AllowAnyHeader();                     

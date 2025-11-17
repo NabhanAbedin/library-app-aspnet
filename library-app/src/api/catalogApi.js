@@ -1,8 +1,8 @@
 import { buildBooksCatalogUrl, buildAuthorsCatalogUrl, buildGenreCatalogUrl } from "../utils/buildCatalogUrl"
 
-export const getBooks = async (filters) => {
+export const getBooks = async (filterData) => {
 
-    const filters = buildBooksCatalogUrl(filters);
+    const filters = buildBooksCatalogUrl(filterData);
 
     const res = await fetch(`http://localhost:5189/api/catalog/books?${filters}`, {
         method: 'GET',
@@ -17,8 +17,8 @@ export const getBooks = async (filters) => {
     return json;
 }
 
-export const getAuthors = async (filters) => {
-    const filters = buildAuthorsCatalogUrl(filters);
+export const getAuthors = async (filterData) => {
+    const filters = buildAuthorsCatalogUrl(filterData);
 
     const res = await fetch(`http://localhost:5189/api/catalog/authors?${filters}`, {
         method: 'GET',
@@ -34,8 +34,8 @@ export const getAuthors = async (filters) => {
 }
 
 
-export const getGenres = async (filters) => {
-    const filters = buildAuthorsCatalogUrl(filters);
+export const getGenres = async (filterData) => {
+    const filters = buildAuthorsCatalogUrl(filterData);
 
     const res = await fetch(`http://localhost:5189/api/catalog/genres?${filters}`, {
         method: 'GET',

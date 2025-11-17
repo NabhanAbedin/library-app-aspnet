@@ -1,4 +1,5 @@
 export const formatRelease = (release) => {
+    if (!release) return 'N/A';
     const splitRelease = release.split('T');
 
     return splitRelease[0];

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import SearchCatalog from "./searchCatalog";
 import { findBySearch, formatRelease, catalogBooks } from "../../api/apiFunctions";
+import { getBooks } from "../../api/catalogApi";
 import {motion} from 'framer-motion';
 import BooksTable from "./BooksTable";
 import Filter from '../../filter/Filter';
@@ -19,13 +20,10 @@ const BooksCatalog = () => {
     //search useEffect
     useEffect(()=> {
         const fetchData = async () => {
-            if (!query) {
-                const result = await catalogBooks(filterData);
-                console.log(result)
-                setData(result);
-                return;
-            } 
-            const result = await findBySearch(query);
+            const result = await getBooks({
+                search: query,
+                filterData
+            });
             console.log(result);
             setData(result);
         };

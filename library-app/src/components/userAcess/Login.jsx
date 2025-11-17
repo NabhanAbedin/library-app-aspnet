@@ -2,7 +2,7 @@ import Nav from "../nav";
 import { useState,useEffect} from "react";
 import {motion} from 'framer-motion';
 import { useNavigate, Link } from "react-router-dom";
-import { logIn } from "../../api/apiFunctions.js";
+import { logIn } from "../../api/authApi.js";
 import '../../Styles/addContent.css';
 import '../../Styles/userAccess.css';
 import InValid from "./invalid.jsx";
@@ -27,13 +27,14 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (loginInfo.username.trim() !== '' && loginInfo.password.trim() !== '') {
-            const {res,result} = await logIn(loginInfo.username, loginInfo.password);
+            const {res,json} = await logIn(loginInfo);
+            console.log(json);
             if (res.ok) {
                 setLoggedIn(true);
                 logInClient({
-                    id: result.userId,
-                    username: result.username,
-                    role: result.role
+                    id: json.userId,
+                    username: json.username,
+                    role: json.role
                 });
             } else if (result.error === 'invalid username') {
                 setLoggedIn('usernameError');

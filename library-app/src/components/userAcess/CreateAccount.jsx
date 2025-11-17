@@ -2,7 +2,7 @@ import Nav from "../nav";
 import { useState,useEffect} from "react";
 import {motion} from 'framer-motion';
 import { useNavigate } from "react-router-dom";
-import { logIn, createAccount } from "../../api/apiFunctions.js";
+import { register } from "../../api/authApi.js";
 import '../../Styles/addContent.css';
 import '../../Styles/userAccess.css';
 import { useAuth } from "../../AuthContext.jsx";
@@ -27,18 +27,19 @@ const CreateAccount = () => {
         e.preventDefault();
          if (createInfo.username.trim() !== '' && createInfo.password.trim() !== '') {
             
-            const createRes = await createAccount(createInfo.username, createInfo.password);
-            if (createRes.ok) {
-                const {res,result} = await logIn(createInfo.username, createInfo.password);
-                if (res.ok) {
-                    setLoggedIn(true);
-                    logInClient({
-                        id: result.userId,
-                        username: result.username,
-                        role: result.role
-                    });
-                };
-            };
+            const {res,json} = await register(createInfo);
+            if (res.ok) {
+                setLoggedIn(true);
+                logInClient({
+                    id: json.userId,
+                    username: json.username,
+                    role: json.role
+                });
+            } else if (result.error === 'invalid username') {
+                setLoggedIn('usernameError');
+            } else if (result.error === 'invalid password') {
+                setLoggedIn('passwordError');
+            }
         };
     };  
 

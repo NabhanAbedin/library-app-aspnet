@@ -1,4 +1,4 @@
-const register = async (registerRequest) => {
+export const register = async (registerRequest) => {
     const res = await fetch('http://localhost:5189/api/auth/register', {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
@@ -15,11 +15,11 @@ const register = async (registerRequest) => {
       }
 
     const json = await res.json();
-    return json;
+    return {res, json};
 }
 
 
-const logIn = async (loginRequest) => {
+export const logIn = async (loginRequest) => {
     const res = await fetch('http://localhost:5189/api/auth/login', {
         method: 'POST',
         headers: {'Content-type': 'application/json'},
@@ -36,10 +36,11 @@ const logIn = async (loginRequest) => {
       }
 
     const json = await res.json();
-    return json;
+    console.log(json);
+    return {res, json};
 }
 
-const logout = async () => {
+export const logout = async () => {
     const res = await fetch('http://localhost:5189/api/auth/logout', {
       method: 'POST',
       credentials: 'include',
@@ -50,5 +51,5 @@ const logout = async () => {
       throw new Error(`Logout failed: ${errorText}`);
     }
   
-    return res.json();
+    return res;
   };
