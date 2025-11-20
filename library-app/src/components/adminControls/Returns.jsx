@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { adminGetCheckedOut, updateReturn, formatRelease } from "../../api/apiFunctions";
 import {motion} from 'framer-motion';
-
+import { getAdminCheckout } from "../../api/adminApi";
 
 const Returns = () => {
     const [data, setData] = useState(null);
@@ -9,7 +9,7 @@ const Returns = () => {
 
     useEffect(()=> {
         const fetchData = async () => {
-            const result = await adminGetCheckedOut();
+            const result = await getAdminCheckout();
             console.log(result);
             setData(result);
         };
@@ -55,13 +55,13 @@ const Returns = () => {
                       key={data.id}
                       > 
                           <td className="book-title-cell">{data.username}</td>
-                          <td className="book-title-cell">{data.book_title}</td>
-                          <td className="book-author-cell">{data.author_name}</td>
+                          <td className="book-title-cell">{data.bookTitle}</td>
+                          <td className="book-author-cell">{data.authorName}</td>
                           <td className="book-genre-cell">
-                              <span className="book-genre-tag">{formatRelease(data.check_out_at)}</span>
+                              <span className="book-genre-tag">{formatRelease(data.checkedOutTime)}</span>
                           </td>
                           <td className="book-genre-cell">
-                              <span className="book-genre-tag">{formatRelease(data.due_date)}</span>
+                              <span className="book-genre-tag">{formatRelease(data.dueDate)}</span>
                           </td>
                           <td className="book-genre-cell">
                               <span className="book-genre-tag">

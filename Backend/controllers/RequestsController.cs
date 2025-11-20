@@ -17,7 +17,7 @@ public class RequestsController : ControllerBase
         _requestsService = requestsService;
     }
 
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<ActionResult<IEnumerable<object>>> GetRequests()
     {
@@ -32,7 +32,7 @@ public class RequestsController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("{id:long}")]
     public async Task<ActionResult<Request>> GetRequestById(long id)
     {
@@ -58,7 +58,7 @@ public class RequestsController : ControllerBase
             }
             
             var request = await _requestsService.AddBookRequest(bookRequest);
-            return CreatedAtAction(nameof(GetRequestById), new {id  = request.Id}, request);
+            return Ok();
         }
         catch (InvalidOperationException ex)
         {
@@ -80,7 +80,7 @@ public class RequestsController : ControllerBase
                 return BadRequest();
             }
             var request = await _requestsService.AddAuthorRequest(authorRequest);
-            return CreatedAtAction(nameof(GetRequestById), new {id = request.Id}, request);
+            return Ok();
         }
         catch (InvalidOperationException ex)
         {
@@ -103,7 +103,7 @@ public class RequestsController : ControllerBase
             }
 
             var request = await _requestsService.AddGenreRequest(genreRequest);
-            return CreatedAtAction(nameof(GetRequestById), new { id = request.Id }, request);
+            return Ok();
         }
         catch (InvalidOperationException ex)
         {

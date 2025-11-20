@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { getCheckOut, formatRelease } from "../../api/apiFunctions";
+import { formatRelease } from "../../api/apiFunctions";
 import {motion} from 'framer-motion';
+import { getCheckedoutItems } from "../../api/myCollectionApi";
 
 const CheckedOutCollection = ({reRender, setReRender}) => {
     const [data, setData] = useState(null);
@@ -9,7 +10,7 @@ const CheckedOutCollection = ({reRender, setReRender}) => {
 
     useEffect(()=> {
         const fetchData = async () => {
-             const result = await getCheckOut();
+             const result = await getCheckedoutItems();
              console.log(result)
              setData(result);
         }
@@ -34,16 +35,16 @@ const CheckedOutCollection = ({reRender, setReRender}) => {
                         {data.map(data => (
                             <tr 
                             key={data.id}
-                            onClick={() => handleCart(data.book_id)}
-                            style={cart.includes(data.book_id) ? { backgroundColor: '#f5f5f5' } : undefined}
+                            onClick={() => handleCart(data.bookId)}
+                            style={cart.includes(data.bookId) ? { backgroundColor: '#f5f5f5' } : undefined}
                             >
-                                <td className="book-title-cell">{data.book_title}</td>
-                                <td className="book-author-cell">{data.author_name}</td>
+                                <td className="book-title-cell">{data.bookTitle}</td>
+                                <td className="book-author-cell">{data.authorName}</td>
                                 <td className="book-genre-cell">
-                                    <span className="book-genre-tag">{formatRelease(data.check_out_at)}</span>
+                                    <span className="book-genre-tag">{formatRelease(data.checkedOutTime)}</span>
                                 </td>
                                 <td className="book-genre-cell">
-                                    <span className="book-genre-tag">{formatRelease(data.due_date)}</span>
+                                    <span className="book-genre-tag">{formatRelease(data.dueDate)}</span>
                                 </td>
                             </tr>
                         ))}

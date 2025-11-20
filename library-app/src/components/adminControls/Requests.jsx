@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { getAllRequests } from "../../api/apiFunctions.js";
+import { getRequests } from "../../api/requestsApi.js";
 import '../../Styles/adminControls.css';
 import BookRequests from "./BookRequests.jsx";
 import AuthorRequests from "./AuthorRequests.jsx";
@@ -11,12 +12,12 @@ const Requests = () => {
 
     useEffect(()=> {
         const fetchData = async () => {
-            const {bookResult, authorsResult} = await getAllRequests();
-            console.log(bookResult);
+            const {bookRequests, authorRequests, genreRequests} = await getRequests();
+            console.log(bookRequests);
             console.log(authorRequests);
-            setBookRequests(bookResult);
-            setAuthorRequests(authorsResult);
-            
+            setBookRequests(bookRequests);
+            setAuthorRequests(authorRequests);
+
         };
      fetchData();
     },[]);

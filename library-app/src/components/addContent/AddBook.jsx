@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {motion} from 'framer-motion';
-import { addBookRequest } from "../../api/apiFunctions";
+import { addBookRequest } from "../../api/requestsApi";
 
 const AddBook = () => {
     const [ formData, setFormData ] = useState({
@@ -21,7 +21,11 @@ const AddBook = () => {
         e.preventDefault();
         try {
             console.log('form data:', formData)
-            const res = await addBookRequest(formData);
+            const res = await addBookRequest({
+                Title: formData.title,
+                Author: formData.author,
+                Genre: formData.genre
+            });
 
             if (res.ok) {
                 setFormData({title: '', author: '', release: '', genre: ''});

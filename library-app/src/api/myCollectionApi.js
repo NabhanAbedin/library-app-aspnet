@@ -89,7 +89,7 @@ const addCollectionToCheckedout = async (bookIds) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(bookIds),
+        body: JSON.stringify({bookIds}),
         credentials: 'include'
     });
 
@@ -97,8 +97,7 @@ const addCollectionToCheckedout = async (bookIds) => {
         throw new Error(`Failed to checkout books: ${res.status} ${res.statusText}`);
     }
 
-    const json = await res.json();
-    return json;
+    return res;
 }
 
 export { getCart, addToCart, getCartItemById, deleteCartItem, getCheckedoutItems, addCollectionToCheckedout };

@@ -1,4 +1,4 @@
-const getCheckout = async () => {
+export const getAdminCheckout = async () => {
     const res = await fetch('http://localhost:5189/api/admin/checkout', {
         method: 'GET',
         credentials: 'include',
@@ -13,7 +13,7 @@ const getCheckout = async () => {
     return json;
 }
 
-const updateReturn = async (userId, bookId) => {
+export const updateReturn = async (userId, bookId) => {
     const res = await fetch(`http://localhost:5189/api/admin/returns/${userId}/books/${bookId}`, {
         method: 'PUT'
     });

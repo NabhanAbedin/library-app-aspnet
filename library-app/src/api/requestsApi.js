@@ -12,6 +12,7 @@ const getRequests = async () => {
     }
 
     const json = await res.json();
+    console.log(json);
     return json;
 }
 
@@ -46,8 +47,7 @@ const addBookRequest = async (bookRequest) => {
         throw new Error(`Failed to add book request: ${res.status} ${res.statusText}`);
     }
 
-    const json = await res.json();
-    return json;
+    return res;
 }
 
 const addAuthorRequest = async (authorRequest) => {
@@ -64,8 +64,7 @@ const addAuthorRequest = async (authorRequest) => {
         throw new Error(`Failed to add author request: ${res.status} ${res.statusText}`);
     }
 
-    const json = await res.json();
-    return json;
+    return res;
 }
 
 const addGenreRequest = async (genreRequest) => {
@@ -82,8 +81,7 @@ const addGenreRequest = async (genreRequest) => {
         throw new Error(`Failed to add genre request: ${res.status} ${res.statusText}`);
     }
 
-    const json = await res.json();
-    return json;
+    return res;
 }
 
 export { getRequests, getRequestById, addBookRequest, addAuthorRequest, addGenreRequest };

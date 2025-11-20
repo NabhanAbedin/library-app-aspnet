@@ -26,14 +26,10 @@ const CartCollection = ({reRender, setReRender}) => {
     }
 
     const handleSubmit = async () => {
-        const res = await addToCheckOut(cart);
+        const res = await addCollectionToCheckedout(cart);
         if (res.ok) {
             setData(prev => prev.filter(c => !cart.includes(c.book_id)));
-            console.log('success');
-            const result = await removeFromCart(cart);
-            if (result.ok) {
                 setReRender(prev => !prev);
-            }
         } else if (res.status === 409) {
             alert('You cannot check out more than 5 books at a time');
             setCart([]);
@@ -60,13 +56,13 @@ const CartCollection = ({reRender, setReRender}) => {
                         {data.map(data => (
                             <tr 
                             key={data.id}
-                            onClick={() => handleCart(data.book_id)}
-                            style={cart.includes(data.book_id) ? { backgroundColor: '#f5f5f5' } : undefined}
+                            onClick={() => handleCart(data.bookId)}
+                            style={cart.includes(data.bookId) ? { backgroundColor: '#f5f5f5' } : undefined}
                             >
-                                <td className="book-title-cell">{data.book_title}</td>
-                                <td className="book-author-cell">{data.author_name}</td>
+                                <td className="book-title-cell">{data.bookTitle}</td>
+                                <td className="book-author-cell">{data.authorName}</td>
                                 <td className="book-genre-cell">
-                                    <span className="book-genre-tag">{data.genre_type}</span>
+                                    <span className="book-genre-tag">{data.genreType}</span>
                                 </td>
                             </tr>
                         ))}
@@ -80,7 +76,7 @@ const CartCollection = ({reRender, setReRender}) => {
                     whileTap={{ scale: 0.98 }}
                     whileHover={{ scale: 1.01 }}
                     transition={{ type: "spring", stiffness: 300 }}
-                    >submit</motion.button>
+                    >Submit</motion.button>
                 </div>
                </>
             )}

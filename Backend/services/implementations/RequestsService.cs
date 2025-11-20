@@ -24,6 +24,7 @@ public class RequestsService : IRequestsService
             .Where(r => !string.IsNullOrEmpty(r.Title))
             .Select(r => new BookRequestDto
             {
+                id = r.Id,
                 Title = r.Title,
                 Author = r.Author,
                 Genre = r.Genre
@@ -33,6 +34,7 @@ public class RequestsService : IRequestsService
             .Where(r => !string.IsNullOrEmpty(r.AuthorName))
             .Select(r => new AuthorRequestDto
             {
+                id = r.Id,
                 AuthorName = r.AuthorName,
                 AuthorBio = r.AuthorBio,
                 AuthorAge = r.AuthorAge
@@ -42,6 +44,7 @@ public class RequestsService : IRequestsService
             .Where(r => !string.IsNullOrEmpty(r.Type))
             .Select(r => new GenreRequestDto
             {
+                id = r.Id,
                 Type = r.Type
             });
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import {motion} from 'framer-motion';
-import { addAuthorRequest } from "../../api/apiFunctions";
+import { addAuthorRequest } from "../../api/requestsApi";
 
 const AddAuthor = () => {
     const [ formData, setFormData ] = useState({
@@ -19,7 +19,11 @@ const AddAuthor = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await addAuthorRequest(formData);
+            const res = await addAuthorRequest({
+                AuthorName: formData.name,
+                AuthorBio: formData.bio.trim() === '' ? null : formData.bio,
+                AuthorAge: formData.age ? parseInt(formData.age) : null
+        });
 
             if (res.ok) {
                 setFormData({

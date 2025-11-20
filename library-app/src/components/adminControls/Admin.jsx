@@ -12,7 +12,7 @@ const Admin = () => {
     const [searchParams] = useSearchParams();
     const selected = searchParams.get('selected');
 
-    if (!user || user.role != 'admin') {
+    if (!user || user.role != 'Admin') {
         navigate('/');
     }
 

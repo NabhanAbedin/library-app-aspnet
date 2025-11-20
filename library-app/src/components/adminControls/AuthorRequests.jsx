@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {motion} from 'framer-motion';
 import {  removeFromRequests,  addAuthorToCatalog } from "../../api/apiFunctions.js";
+import { addAuthorRequest } from "../../api/apiFunctions.js";
 
 
 const AuthorRequests = ({authorRequests, setAuthorRequests}) => {
@@ -55,10 +56,10 @@ const AuthorRequests = ({authorRequests, setAuthorRequests}) => {
                         style={cart.some(item => item.id === requests.id) ? { backgroundColor: '#A9A9A9' } : undefined}
                         onClick={() => updateCart(requests)}
                         >
-                            <td className="book-title-cell">{requests.author_name}</td>
-                            <td className="book-author-cell">{requests.author_bio}</td>
+                            <td className="book-title-cell">{requests.authorName}</td>
+                            <td className="book-author-cell">{requests.authorBio}</td>
                             <td className="book-genre-cell">
-                                <span className="book-genre-tag">{requests.author_age}</span>
+                                <span className="book-genre-tag">{requests.authorAge}</span>
                             </td>
     
                         </tr>
