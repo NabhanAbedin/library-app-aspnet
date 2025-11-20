@@ -57,7 +57,7 @@ const Nav = () => {
               My collection
               </Link>
             )}
-            {user && user.role === 'admin' && (
+            {user && user.role === 'Admin' && (
               <Link to='/Admin' className="nav-link">
               Admin Controls
               </Link>

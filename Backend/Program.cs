@@ -25,6 +25,18 @@ builder.Services.AddAuthentication(options =>
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(key)
         };
+        
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                if (context.Request.Cookies.ContainsKey("token"))
+                {
+                    context.Token = context.Request.Cookies["token"];
+                }
+                return Task.CompletedTask;
+            }
+        };
 
         
     });
@@ -35,7 +47,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.WithOrigins("http://localhost:5173") 
+        policy.WithOrigins("http://localhost:5174") 
             .AllowCredentials()                   
             .AllowAnyMethod()                      
             .AllowAnyHeader();                     

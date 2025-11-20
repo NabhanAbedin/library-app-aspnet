@@ -15,12 +15,13 @@ const getCart = async () => {
     return json;
 }
 
-const addToCart = async (bookId) => {
-    const res = await fetch(`http://localhost:5189/api/MyCollection/cart/${bookId}`, {
+const addToCart = async (bookIds) => {
+    const res = await fetch(`http://localhost:5189/api/MyCollection/cart`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
+        body: JSON.stringify(bookIds),
         credentials: 'include'
     });
 
@@ -66,7 +67,7 @@ const deleteCartItem = async (cartItemId) => {
     return;
 }
 
-const getUserCart = async () => {
+const getCheckedoutItems = async () => {
     const res = await fetch('http://localhost:5189/api/MyCollection/checkout', {
         method: 'GET',
         headers: {
@@ -89,7 +90,7 @@ const addCollectionToCheckedout = async (bookIds) => {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ bookIds }),
+        body: JSON.stringify(bookIds),
         credentials: 'include'
     });
 
@@ -101,4 +102,4 @@ const addCollectionToCheckedout = async (bookIds) => {
     return json;
 }
 
-export { getCart, addToCart, getCartItemById, deleteCartItem, getUserCart, addCollectionToCheckedout };
+export { getCart, addToCart, getCartItemById, deleteCartItem, getCheckedoutItems, addCollectionToCheckedout };

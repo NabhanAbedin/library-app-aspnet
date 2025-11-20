@@ -53,3 +53,16 @@ export const logout = async () => {
   
     return res;
   };
+
+  export const checkAuth = async () => {
+    const res = await fetch('http://localhost:5189/api/auth/check', {
+        method: 'GET',
+        credentials: 'include',
+    });
+
+    if (!res.ok) {
+        return null;
+    }
+
+    return await res.json();
+};

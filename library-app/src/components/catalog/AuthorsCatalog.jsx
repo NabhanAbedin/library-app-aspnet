@@ -1,6 +1,6 @@
 import { useState, useEffect,  } from "react";
 import SearchCatalog from "./searchCatalog";
-import {  catalogAuthors, findAuthorsBySearch  } from "../../api/apiFunctions";
+import { getAuthors } from "../../api/catalogApi";
 import {motion} from 'framer-motion';
 import Filter from "../../filter/Filter";
 import AuthorsTable from "./AuthorsTable";
@@ -9,20 +9,20 @@ const AuthorsCatalog = () => {
     const [ query, setQuery ] = useState(null);
     const [ data, setData ] = useState(null);
     const [filterData, setFilterData] = useState({
-        orderBy: 'ascending',
+        orderBy: 'asc',
         from: null,
         to: null
     });
  
     useEffect(()=> {
         const fetchData = async () => {
-            if (!query) {
-                const result = await catalogAuthors(filterData);
-                console.log(result)
-                setData(result);
-                return;
-            }  
-            const result = await findAuthorsBySearch(query);
+            
+            const result = await getAuthors({
+                search: query,
+                orderBy: filterData.orderBy,
+                from: filterData.from,
+                to: filterData.to
+            })
             setData(result);
         };
      fetchData();

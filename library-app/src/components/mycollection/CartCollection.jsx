@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { userCarts, removeFromCart, addToCheckOut} from "../../api/apiFunctions";
 import {motion} from 'framer-motion';
+import { getCart, deleteCartItem, addCollectionToCheckedout  } from "../../api/myCollectionApi";
 
 const CartCollection = ({reRender, setReRender}) => {
     const [data, setData] = useState(null);
@@ -9,7 +10,7 @@ const CartCollection = ({reRender, setReRender}) => {
 
     useEffect(()=> {
         const fetchData = async () => {
-            const result = await userCarts();
+            const result = await getCart();
             console.log(result);
             setData(result);
         }

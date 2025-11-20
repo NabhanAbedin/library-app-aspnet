@@ -1,4 +1,5 @@
 
+using System.Security.Claims;
 using Backend.models.dtos;
 using Backend.models.Entities;
 using Backend.services.interfaces;
@@ -103,5 +104,17 @@ public class AuthController : ControllerBase
             SameSite = SameSiteMode.Lax,
         });
         return Ok(new {message = "Logout successful"});
+    }
+
+    [Authorize]
+    [HttpGet("check")]
+    public IActionResult CheckAuth()
+    {
+        var userId = User.FindFirst("userId")?.Value;
+        var username = User.FindFirst(ClaimTypes.Name)?.Value;
+        var role = User.FindFirst(ClaimTypes.Role)?.Value;
+        
+        return Ok(new { userId = long.Parse(userId), username, role });
+        
     }
 }

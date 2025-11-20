@@ -1,5 +1,6 @@
 import {motion} from 'framer-motion';
-import { formatRelease, addToCart } from '../../api/apiFunctions';
+import { formatRelease } from '../../api/apiFunctions';
+import { addToCart } from '../../api/myCollectionApi';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../AuthContext';

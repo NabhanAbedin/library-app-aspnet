@@ -12,7 +12,7 @@ const BooksCatalog = () => {
     const [ data, setData ] = useState(null);
     const [filterData, setFilterData] = useState({
         sortBy: 'books',
-        orderBy: 'ascending',
+        orderBy: 'asc',
         from: null,
         to: null
     });
@@ -22,7 +22,10 @@ const BooksCatalog = () => {
         const fetchData = async () => {
             const result = await getBooks({
                 search: query,
-                filterData
+                sortBy: filterData.sortBy,
+                orderBy: filterData.orderBy,
+                from: filterData.from,
+                to: filterData.to
             });
             console.log(result);
             setData(result);

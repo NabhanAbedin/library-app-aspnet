@@ -3,6 +3,7 @@ import { buildBooksCatalogUrl, buildAuthorsCatalogUrl, buildGenreCatalogUrl } fr
 export const getBooks = async (filterData) => {
 
     const filters = buildBooksCatalogUrl(filterData);
+    console.log(filters);
 
     const res = await fetch(`http://localhost:5189/api/catalog/books?${filters}`, {
         method: 'GET',
@@ -19,7 +20,8 @@ export const getBooks = async (filterData) => {
 
 export const getAuthors = async (filterData) => {
     const filters = buildAuthorsCatalogUrl(filterData);
-
+    console.log(filters);
+    
     const res = await fetch(`http://localhost:5189/api/catalog/authors?${filters}`, {
         method: 'GET',
     })

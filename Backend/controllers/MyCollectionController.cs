@@ -54,15 +54,15 @@ public class MyCollectionController : ControllerBase
         }
     }
 
-    [HttpPost("cart/{bookId:long}")]
-    public async Task<IActionResult> AddCollection(long bookId)
+    [HttpPost("cart")]
+    public async Task<IActionResult> AddCollection(List<long> bookIds)
     {
         
         try
         {
             var  userId = GetUserIdFromToken();
-            var cartItem = await _myCollectionService.AddMyCollection(userId, bookId);
-            return CreatedAtAction(nameof(GetCartItemById), new { id = cartItem.Id }, cartItem);
+            await _myCollectionService.AddMyCollection(userId, bookIds);
+            return Created();
         }
         catch (DbUpdateException e)
         {

@@ -12,8 +12,8 @@ const Direction = ({filterData, setFilterData}) => {
                   }))
                 }
               >
-              <option value="ascending">Ascending</option>
-              <option value="descending">Descending</option>
+              <option value="asc">Ascending</option>
+              <option value="desc">Descending</option>
               </select>
         </>
     );

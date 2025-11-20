@@ -37,17 +37,18 @@ public class MyCollectionService : IMyCollectionService
             
     }
 
-    public async Task<Cart> AddMyCollection(long userId, long  bookId )
+    public async Task AddMyCollection(long userId, List<long> bookIds)
     {
-        var cart = new Cart
+        var cartItems = bookIds.Select(bookId => new Cart
         {
             UserId = userId,
-            BookId = bookId,
-        };
-        _context.Carts.Add(cart);
+            BookId = bookId
+        }).ToList();
+        
+        _context.Carts.AddRange(cartItems);
        await _context.SaveChangesAsync();
 
-        return cart;
+       
     }
 
     public async Task<bool> RemoveMyCollection(long id, long  userId)

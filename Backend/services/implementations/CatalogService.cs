@@ -25,7 +25,7 @@ public class CatalogService : ICatalogService
 
        if (!string.IsNullOrEmpty(query.Search))
        {
-           booksQuery = booksQuery.Where(b => b.Title.Contains(query.Search));
+           booksQuery = booksQuery.Where(b => EF.Functions.ILike(b.Title, $"%{query.Search}%"));
        }
 
        if (query.From.HasValue)
@@ -136,7 +136,7 @@ public class CatalogService : ICatalogService
 
         if (!string.IsNullOrEmpty(query.Search))
         {
-            authorQuery = authorQuery.Where(a => a.Name.Contains(query.Search));
+            authorQuery = authorQuery.Where(a => EF.Functions.ILike(a.Name, $"%{query.Search}%"));
         }
 
         if (!string.IsNullOrEmpty(query.From))
@@ -214,7 +214,7 @@ public class CatalogService : ICatalogService
 
         if (!string.IsNullOrEmpty(query.Search))
         {
-            genreQuery = genreQuery.Where(g => g.Type.Contains(query.Search));
+            genreQuery = genreQuery.Where(g => EF.Functions.ILike(g.Type, $"%{query.Search}%"));
             
         }
 

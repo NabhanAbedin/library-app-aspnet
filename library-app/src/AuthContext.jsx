@@ -1,5 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
-import { checkLoggedIn } from "./api/apiFunctions";
+import { checkAuth } from "./api/authApi";
 
 const AuthContext = createContext();
 
@@ -10,7 +10,7 @@ export const AuthProvider =({children}) => {
     useEffect(()=> {
         const fetchData = async () => {
             try {
-                const result = await checkLoggedIn();
+                const result = await checkAuth();
                 console.log('the result is',result)
                 if (result) {
                     setUser({

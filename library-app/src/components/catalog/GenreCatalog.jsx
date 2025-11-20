@@ -1,7 +1,7 @@
 import { useState, useEffect,  } from "react";
 import SearchCatalog from "./searchCatalog";
 import {motion} from 'framer-motion';
-import { catalogGenre, findGenreBySearch } from "../../api/apiFunctions.js";
+import { getGenres } from "../../api/catalogApi";
 import Filter from "../../filter/Filter";
 import GenreTable from "./GenreTable";
 
@@ -14,12 +14,11 @@ const GenreCatalog = () => {
  
     useEffect(()=> {
         const fetchData = async () => {
-            if (!query) {
-                const result = await catalogGenre(filterData);
-                setData(result);
-                return;
-            }  
-            const result = await findGenreBySearch(query);
+           
+            const result = await getGenres({
+                search: query,
+                orderBy: filterData.orderBy
+            })
             setData(result);
         };
      fetchData();
