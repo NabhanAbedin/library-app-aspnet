@@ -29,8 +29,7 @@ const addToCart = async (bookIds) => {
         throw new Error(`Failed to add to cart: ${res.status} ${res.statusText}`);
     }
 
-    const json = await res.json();
-    return json;
+   return res;
 }
 
 const getCartItemById = async (cartItemId) => {

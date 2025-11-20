@@ -22,6 +22,7 @@ const BooksTable = ({books}) => {
     const checkOut = async () => {
         if (user) {
             const res = await addToCart(cart);
+            console.log(res);
             if (res.ok) navigate('/myCollection')
         } else {
             navigate('/Login');
