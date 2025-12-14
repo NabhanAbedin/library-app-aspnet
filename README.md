@@ -40,10 +40,51 @@ This project represents a complete rebuild of an earlier Node.js/Express.js libr
 - **BCrypt.Net** for secure password hashing
 - **JWT Bearer Authentication** with dual cookie/Bearer token support
 - **Dependency Injection** for clean architecture and testability
+- **Docker** containerization for consistent development and deployment environments
 
 ### Database
-- **PostgreSQL** relational database
-- **Entity Framework Core Migrations** for version-controlled schema management
+- **PostgreSQL 15** relational database running in Docker container
+- **Entity Framework Core Migrations** for version-controlled schema management with automatic migration on application startup
+- **Docker Volumes** for persistent data storage across container restarts
+
+## Getting Started
+
+### Prerequisites
+- Docker and Docker Compose installed
+- .NET 9.0 SDK (for local development)
+- Node.js (for frontend development)
+
+### Running with Docker
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd library-app-aspnet
+   ```
+
+2. **Start the backend and database**
+   ```bash
+   cd Backend
+   docker-compose up --build
+   ```
+
+   This will:
+   - Build the ASP.NET Core backend image
+   - Pull and start PostgreSQL 15 container
+   - Run database migrations automatically
+   - Expose the API on `http://localhost:3000`
+
+3. **Access the application**
+   - Backend API: `http://localhost:3000`
+   - PostgreSQL: `localhost:5432` (credentials in docker-compose.yml)
+
+### Docker Configuration
+
+The application uses multi-stage Docker builds for optimized image sizes:
+- **Build stage**: Uses .NET SDK 9.0 to compile and publish the application
+- **Runtime stage**: Uses lighter ASP.NET runtime image for production deployment
+
+Database migrations run automatically on container startup via `db.Database.Migrate()` in Program.cs, ensuring schema is always up-to-date.
 
 ## Architecture
 
@@ -61,8 +102,10 @@ Backend/
 ├── Models/
 │   ├── Entities/        # Database entity models
 │   └── dtos/            # Data Transfer Objects
-└── Data/
-    └── LibraryAppContext.cs  # EF Core DbContext
+├── Data/
+│   └── LibraryAppContext.cs  # EF Core DbContext
+├── Dockerfile           # Multi-stage Docker build configuration
+└── docker-compose.yml   # Orchestrates backend and PostgreSQL containers
 ```
 
 ### Key Design Patterns
@@ -141,6 +184,13 @@ Successfully translated Node.js/Express.js patterns to C# equivalents:
 - **Dependency Injection**: Promotes testability and makes dependencies explicit
 - **Interface Segregation**: Service interfaces define contracts independent of implementation
 
+### Docker & Containerization
+- **Multi-stage Builds**: Separate build and runtime images minimize final container size
+- **Health Checks**: PostgreSQL container includes health checks to ensure database readiness before backend starts
+- **Automatic Migrations**: Database schema updates automatically on application startup
+- **Persistent Storage**: Docker volumes ensure data survives container restarts
+- **Service Dependencies**: `depends_on` with health condition ensures proper startup order
+
 ## Known Limitations
 
 ### Scalability & Performance
@@ -173,7 +223,8 @@ Successfully translated Node.js/Express.js patterns to C# equivalents:
 - Book/author editing capabilities
 
 ### Long-Term
-- Dockerize application and deploy to Azure or AWS
+- Deploy containerized application to Azure or AWS
+- Add frontend Docker container and orchestrate full stack with docker-compose
 
 ## Project Motivation
 
