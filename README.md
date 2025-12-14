@@ -214,7 +214,6 @@ Successfully translated Node.js/Express.js patterns to C# equivalents:
 ## Future Implementations
 
 ### Near-Term
-- Complete frontend migration to new ASP.NET API endpoints
 - Implement pagination for all list endpoints
 - Add global exception handling middleware
 
